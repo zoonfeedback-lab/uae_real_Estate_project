@@ -1,334 +1,452 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
-import PropertyCard from "@/components/ui/PropertyCard";
-import { ELITE_RESIDENCES } from "@/data/siteData";
+import Link from "next/link";
 import styles from "./property.module.css";
 
+const properties = [
+  {
+    title: "Villa Luminaire",
+    location: "Palm Jumeirah",
+    price: "AED 42.5M",
+    beds: 6,
+    baths: 8,
+    transaction: "Buy",
+    type: "Penthouse",
+    amenities: ["Private Pool", "Sea View", "Smart Home"],
+    priceValue: 42.5,
+    tag: "Exclusive",
+    status: "Verified",
+    agent: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80",
+    image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=900&q=80",
+  },
+  {
+    title: "Skyline Majesty",
+    location: "Business Bay",
+    price: "AED 18.9M",
+    beds: 4,
+    baths: 5,
+    transaction: "Buy",
+    type: "Penthouse",
+    amenities: ["Sea View", "Smart Home"],
+    priceValue: 18.9,
+    tag: "New Launch",
+    status: "Verified",
+    agent: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
+    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=900&q=80",
+  },
+  {
+    title: "Marina Heights",
+    location: "Dubai Marina",
+    price: "Contact for Price",
+    beds: null,
+    baths: null,
+    transaction: "Rent",
+    type: "Luxury Villa",
+    amenities: ["Private Pool"],
+    priceValue: 85,
+    tag: "Coming Soon",
+    status: "",
+    image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?w=900&q=80",
+  },
+];
+
+const amenityOptions = ["Private Pool", "Sea View", "Smart Home"];
+
+function SearchIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-3.5-3.5" />
+    </svg>
+  );
+}
+
+function MapPinIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M20 10c0 5.5-8 11-8 11s-8-5.5-8-11a8 8 0 1 1 16 0Z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </svg>
+  );
+}
+
+function BedIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 11V5h6a3 3 0 0 1 3 3v3" />
+      <path d="M3 18v-6h18a2 2 0 0 1 2 2v4" />
+      <path d="M3 18h20" />
+      <path d="M7 18v2" />
+      <path d="M20 18v2" />
+    </svg>
+  );
+}
+
+function BathIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 10V6a3 3 0 0 1 6 0" />
+      <path d="M5 10h16v4a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5v-4Z" />
+      <path d="M8 19v2" />
+      <path d="M18 19v2" />
+    </svg>
+  );
+}
+
+function BuildingIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 21V4h10v17" />
+      <path d="M15 9h4v12" />
+      <path d="M8 8h1" />
+      <path d="M11 8h1" />
+      <path d="M8 12h1" />
+      <path d="M11 12h1" />
+      <path d="M8 16h1" />
+      <path d="M11 16h1" />
+      <path d="M3 21h18" />
+    </svg>
+  );
+}
+
+function VillaIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M3 21V10l9-7 9 7v11" />
+      <path d="M7 21v-8h10v8" />
+      <path d="M10 21v-4h4v4" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="m5 12 4 4L19 6" />
+    </svg>
+  );
+}
+
+function GridIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 4h6v6H4z" />
+      <path d="M14 4h6v6h-6z" />
+      <path d="M4 14h6v6H4z" />
+      <path d="M14 14h6v6h-6z" />
+    </svg>
+  );
+}
+
+function ListIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M8 6h13" />
+      <path d="M8 12h13" />
+      <path d="M8 18h13" />
+      <path d="M3 6h1" />
+      <path d="M3 12h1" />
+      <path d="M3 18h1" />
+    </svg>
+  );
+}
+
+function PropertyCard({ property, muted }) {
+  return (
+    <article className={`${styles.card} ${muted ? styles.cardMuted : ""}`}>
+      <div className={styles.cardImage}>
+        <Image src={property.image} alt={property.title} fill sizes="(max-width: 900px) 100vw, 33vw" />
+        <div className={styles.cardShade} />
+        <div className={styles.badges}>
+          <span className={styles.badge}>{property.tag}</span>
+          {property.status ? <span className={styles.verify}>{property.status}</span> : null}
+        </div>
+        <button className={styles.favorite} aria-label={`Save ${property.title}`}>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 1 0-7.8 7.8l8.8 8.7 8.8-8.7a5.5 5.5 0 0 0 0-7.8Z" />
+          </svg>
+        </button>
+        <div className={styles.cardTitleBlock}>
+          <h2>{property.title}</h2>
+          <p>
+            <MapPinIcon />
+            {property.location}
+          </p>
+        </div>
+        {property.agent ? (
+          <div className={styles.agent}>
+            <Image src={property.agent} alt="" fill sizes="48px" />
+          </div>
+        ) : null}
+      </div>
+      <div className={styles.cardBody}>
+        <div className={styles.priceRow}>
+          <strong>{property.price}</strong>
+          {property.beds ? (
+            <span className={styles.facts}>
+              <BedIcon /> {property.beds}
+              <BathIcon /> {property.baths}
+            </span>
+          ) : null}
+        </div>
+        <div className={styles.cardActions}>
+          <button>Details</button>
+          {property.beds ? <button className={styles.primaryAction}>Inquire</button> : <button>Register Interest</button>}
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export default function PropertyPage() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [formStatus, setFormStatus] = useState("idle");
+  const [transaction, setTransaction] = useState("Buy");
+  const [locationQuery, setLocationQuery] = useState("");
+  const [propertyType, setPropertyType] = useState("Penthouse");
+  const [amenities, setAmenities] = useState(["Private Pool"]);
+  const [priceRange, setPriceRange] = useState([15, 45]);
+  const [sortOrder, setSortOrder] = useState("high");
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const currentScroll = window.scrollY;
-      setScrollProgress((currentScroll / totalScroll) * 100);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const filteredProperties = useMemo(() => {
+    return properties
+      .filter((property) => property.transaction === transaction)
+      .filter((property) => property.type === propertyType)
+      .filter((property) => {
+        const query = locationQuery.trim().toLowerCase();
+        return !query || property.location.toLowerCase().includes(query) || property.title.toLowerCase().includes(query);
+      })
+      .filter((property) => property.priceValue >= priceRange[0] && property.priceValue <= priceRange[1])
+      .filter((property) => amenities.every((amenity) => property.amenities.includes(amenity)))
+      .sort((a, b) => (sortOrder === "high" ? b.priceValue - a.priceValue : a.priceValue - b.priceValue));
+  }, [transaction, locationQuery, propertyType, amenities, priceRange, sortOrder]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setFormStatus("submitting");
-    setTimeout(() => setFormStatus("success"), 2000);
+  const toggleAmenity = (amenity) => {
+    setAmenities((current) =>
+      current.includes(amenity) ? current.filter((item) => item !== amenity) : [...current, amenity]
+    );
   };
 
   return (
-    <>
-      <Navbar />
-      
-      {/* Scroll Progress Bar */}
-      <div 
-        className={styles.scrollProgress} 
-        style={{ width: `${scrollProgress}%` }} 
-      />
-
-      <main className={styles.page}>
-        <div className="container">
-          
-          {/* Image Gallery */}
-          <div className={`${styles.gallery} animate-fadeIn`}>
-            <div className={styles.mainImage}>
-              <Image
-                src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1600&q=80"
-                alt="Living Room"
-                fill
-                style={{ objectFit: "cover" }}
-                priority
-              />
-              <div className={styles.imageOverlay} />
-              <div className={styles.galleryActions}>
-                <button className={styles.galleryBtn}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-                  VIRTUAL TOUR
-                </button>
-                <button className={styles.galleryBtn}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                  GALLERY VIEW
-                </button>
-              </div>
-            </div>
-            
-            <div className={styles.sideGrid}>
-              <div className={styles.gridImg}>
-                <Image
-                  src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=800&q=80"
-                  alt="Bedroom"
-                  fill
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-              <div className={styles.gridImg}>
-                <Image
-                  src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80"
-                  alt="Kitchen"
-                  fill
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-              <div className={styles.skyline}>
-                <Image
-                  src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1200&q=80"
-                  alt="Dubai Skyline"
-                  fill
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className={`${styles.contentLayout} animate-fadeInUp`} style={{ animationDelay: "0.2s" }}>
-            {/* Left Column */}
-            <div className={styles.leftColumn}>
-              <div className={styles.tags}>
-                <span className={styles.tagGold}>Exclusive</span>
-                <span className={styles.tag}>Ready to Move</span>
-              </div>
-
-              <h1 className={styles.title}>The Grand Penthouse at Palm Jumeirah</h1>
-              <div className={styles.location}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                Signature Villas, Palm Jumeirah, Dubai
-              </div>
-
-              <div className={styles.statsGrid}>
-                <div>
-                  <span className={styles.statLabel}>Price</span>
-                  <div className={`${styles.statValue} ${styles.statValueGold}`}>AED 45,000,000</div>
-                </div>
-                <div>
-                  <span className={styles.statLabel}>Bedrooms</span>
-                  <div className={styles.statValue}>6 Beds</div>
-                </div>
-                <div>
-                  <span className={styles.statLabel}>Bathrooms</span>
-                  <div className={styles.statValue}>7 Baths</div>
-                </div>
-                <div>
-                  <span className={styles.statLabel}>Size</span>
-                  <div className={styles.statValue}>12,500 Sq. Ft.</div>
-                </div>
-              </div>
-
-              <h2 className={styles.sectionTitle}>Property Overview</h2>
-              <p className={styles.overviewText}>
-                Experience the pinnacle of coastal luxury in this architectural masterpiece. Spread across the entire top floor, the Grand Penthouse offers 360-degree views of the Arabian Gulf and Dubai Skyline. Designed for the discerning few, it features double-height ceilings, a private cinema, and an infinity pool that merges with the horizon.
-              </p>
-
-              <h2 className={styles.sectionTitle}>Amenities</h2>
-              <div className={styles.amenitiesGrid}>
-                <div className={styles.amenityCard}>
-                  <svg className={styles.amenityIcon} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 12c-2 0-2 2-4 2s-2-2-4-2-2 2-4 2-2-2-4-2-2 2-4 2v4h22v-4z"></path></svg>
-                  <span className={styles.amenityLabel}>Private Pool</span>
-                </div>
-                <div className={styles.amenityCard}>
-                  <svg className={styles.amenityIcon} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 18h12"></path><path d="M6 14h12"></path><path d="M4 10h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10z"></path></svg>
-                  <span className={styles.amenityLabel}>Private Gym</span>
-                </div>
-                <div className={styles.amenityCard}>
-                  <svg className={styles.amenityIcon} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
-                  <span className={styles.amenityLabel}>Home Cinema</span>
-                </div>
-                <div className={styles.amenityCard}>
-                  <svg className={styles.amenityIcon} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 11L19 11M5 19L19 19M5 23L19 23"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                  <span className={styles.amenityLabel}>6 Parking Slots</span>
-                </div>
-              </div>
-
-              <div className={styles.mapHeader}>
-                <h2 className={styles.sectionTitle} style={{ margin: 0 }}>Location & Connectivity</h2>
-                <a href="#" className={styles.mapLink}>Open in Google Maps</a>
-              </div>
-              <div className={styles.mapContainer}>
-                <Image
-                  src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1200&q=80"
-                  alt="Map Location"
-                  fill
-                  style={{ objectFit: "cover", opacity: 0.5, filter: "grayscale(1)" }}
-                />
-                <div className={styles.mapOverlay}>
-                  <div className={styles.mapPin}>
-                    <svg className={styles.pinIcon} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    Dubai College - 5 mins
-                  </div>
-                  <div className={styles.mapPin}>
-                    <svg className={styles.pinIcon} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                    Nakheel Mall - 8 mins
-                  </div>
-                  <div className={styles.mapPin}>
-                    <svg className={styles.pinIcon} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
-                    Al Zahra Hospital - 12 mins
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.investmentHeader}>
-                <h2 className={styles.sectionTitle} style={{ margin: 0 }}>Investment Analysis</h2>
-                <span className={styles.investmentRoi}>Estimated ROI: 8.5%</span>
-              </div>
-              <div className={styles.investmentCard}>
-                <div className={styles.investMetrics}>
-                  <div className={styles.investItem}>
-                    <div>
-                      <span className={styles.investLabel}>Annual Rental Income</span>
-                      <div className={styles.investValue}>AED 3,200,000</div>
-                    </div>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                  </div>
-                  <div className={styles.investItem}>
-                    <div>
-                      <span className={styles.investLabel}>Service Charge</span>
-                      <div className={styles.investValue}>AED 180,000</div>
-                    </div>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                  </div>
-                </div>
-                <div className={styles.investChart}>
-                  <div className={styles.chartCircle}>
-                    <span>85%</span>
-                  </div>
-                  <div className={styles.chartLegend}>
-                    <span style={{ color: "var(--color-white)", fontWeight: 500 }}>Capital Appreciation</span><br/>
-                    Target 12% in 2 Years
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.agentCard}>
-                <div className={styles.agentAvatar}>
-                  <Image src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Agent" fill style={{ objectFit: "cover" }} />
-                </div>
-                <div className={styles.agentInfo}>
-                  <h3 className={styles.agentName}>Alexander Vance</h3>
-                  <div className={styles.agentRole}>Senior Portfolio Manager</div>
-                  <p className={styles.agentDesc}>
-                    Specializing in ultra-prime Palm Jumeirah assets for over 12 years, Alexander has closed over AED 2B in transactions and provides bespoke consultancy for HNWIs.
-                  </p>
-                  <div className={styles.agentActions}>
-                    <button className={styles.agentBtn}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                      Email
-                    </button>
-                    <button className={styles.agentBtn}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                      Call
-                    </button>
-                    <button className={styles.agentBtn}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                      Verify Agent
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column / Sidebar */}
-            <aside className={styles.sidebar}>
-              <div className={styles.enquiryCard}>
-                <div className={styles.formHeader}>
-                  <span className={styles.formSubtitle}>Leasing Offer</span>
-                  <div className={styles.formPrice}>AED 45,000,000</div>
-                </div>
-
-                {formStatus === "success" ? (
-                  <div className={styles.successMessage} style={{ textAlign: "center", padding: "40px 0" }}>
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" strokeWidth="2" style={{ marginBottom: "16px" }}>
-                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                    </svg>
-                    <h3 style={{ color: "var(--color-white)", marginBottom: "8px" }}>Enquiry Sent</h3>
-                    <p style={{ color: "var(--color-gray-400)", fontSize: "0.9rem" }}>We will contact you shortly.</p>
-                    <button onClick={() => setFormStatus("idle")} className={styles.actionBtn} style={{ marginTop: "20px" }}>Send another</button>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit}>
-                    <div className={styles.formGroup}>
-                      <label className={styles.formLabel}>Full Name</label>
-                      <input type="text" className={styles.formInput} placeholder="John Doe" required />
-                    </div>
-                    <div className={styles.formGroup}>
-                      <label className={styles.formLabel}>Contact Number</label>
-                      <input type="tel" className={styles.formInput} placeholder="+971 50 000 0000" required />
-                    </div>
-                    <div className={styles.formGroup}>
-                      <label className={styles.formLabel}>Message</label>
-                      <textarea className={`${styles.formInput} ${styles.formTextarea}`} placeholder="I am interested in this property..." required></textarea>
-                    </div>
-                    
-                    <button type="submit" className={styles.formSubmit} disabled={formStatus === "submitting"}>
-                      {formStatus === "submitting" ? "Sending..." : "Enquire Now"}
-                    </button>
-                    
-                    <div className={styles.btnGroup}>
-                      <button type="button" className={styles.actionBtn}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                        Book Viewing
-                      </button>
-                    </div>
-                    <div className={styles.splitBtns}>
-                      <button type="button" className={styles.actionBtn}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                        WhatsApp
-                      </button>
-                      <button type="button" className={styles.actionBtn}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                        Call Now
-                      </button>
-                    </div>
-                  </form>
-                )}
-
-                <div className={styles.reference}>
-                  <span>Reference</span>
-                  <span className={styles.refValue}>LX-08992</span>
-                </div>
-              </div>
-            </aside>
-          </div>
-
-          {/* Similar Properties Section */}
-          <div className={styles.similarSection}>
-            <div className={styles.similarHeader}>
-              <div>
-                <span className={styles.similarSubtitle}>Curated Selection</span>
-                <h2 className={styles.similarTitle}>Similar Signature Properties</h2>
-              </div>
-              <div className={styles.carouselNav}>
-                <button className={styles.navBtn}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                </button>
-                <button className={styles.navBtn}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </button>
-              </div>
-            </div>
-
-            <div className={styles.similarGrid}>
-              {ELITE_RESIDENCES.map((property) => (
-                <PropertyCard key={property.id} property={property} />
-              ))}
-            </div>
-          </div>
-
+    <main className={styles.page}>
+      <header className={styles.topbar}>
+        <Link href="/" className={styles.logo}>LUXE ESTATE</Link>
+        <nav className={styles.nav} aria-label="Primary">
+          <Link className={styles.active} href="/property">Properties</Link>
+          <Link href="/">Insights</Link>
+          <Link href="/">Concierge</Link>
+          <Link href="/">Management</Link>
+        </nav>
+        <div className={styles.headerActions}>
+          <label className={styles.search}>
+            <SearchIcon />
+            <input
+              placeholder="Search locations.."
+              value={locationQuery}
+              onChange={(event) => setLocationQuery(event.target.value)}
+            />
+          </label>
+          <Link href="/" className={styles.signIn}>Sign In</Link>
+          <Link href="/" className={styles.listButton}>List Property</Link>
         </div>
-      </main>
-      
-      <Footer />
-    </>
+      </header>
+
+      <div className={styles.shell}>
+        <aside className={styles.filters}>
+          <div className={styles.filterHeader}>
+            <strong>Filters</strong>
+            <span>Refine Your Selection</span>
+          </div>
+
+          <section className={styles.filterBlock}>
+            <h3>Transaction</h3>
+            <div className={styles.segmented}>
+              <button
+                className={transaction === "Buy" ? styles.selected : ""}
+                onClick={() => setTransaction("Buy")}
+                type="button"
+              >
+                Buy
+              </button>
+              <button
+                className={transaction === "Rent" ? styles.selected : ""}
+                onClick={() => setTransaction("Rent")}
+                type="button"
+              >
+                Rent
+              </button>
+            </div>
+          </section>
+
+          <section className={styles.filterBlock}>
+            <h3>Location</h3>
+            <div className={styles.locationInput}>
+              <MapPinIcon />
+              <input
+                placeholder="Dubai Marina, Palm..."
+                value={locationQuery}
+                onChange={(event) => setLocationQuery(event.target.value)}
+              />
+            </div>
+          </section>
+
+          <section className={styles.filterBlock}>
+            <h3>Property Type</h3>
+            <button
+              className={`${styles.typeOption} ${propertyType === "Penthouse" ? styles.typeSelected : ""}`}
+              onClick={() => setPropertyType("Penthouse")}
+              type="button"
+            >
+              <span className={styles.typeIcon}><BuildingIcon /></span>
+              <span>Penthouse</span>
+              <span className={styles.check}>{propertyType === "Penthouse" ? <CheckIcon /> : null}</span>
+            </button>
+            <button
+              className={`${styles.typeOption} ${propertyType === "Luxury Villa" ? styles.typeSelected : ""}`}
+              onClick={() => setPropertyType("Luxury Villa")}
+              type="button"
+            >
+              <span className={styles.typeIcon}><VillaIcon /></span>
+              <span>Luxury Villa</span>
+              <span className={styles.check}>{propertyType === "Luxury Villa" ? <CheckIcon /> : null}</span>
+            </button>
+          </section>
+
+          <section className={styles.filterBlock}>
+            <h3>Price Range (AED)</h3>
+            <div className={styles.range} style={{ "--range-start": `${((priceRange[0] - 15) / 70) * 100}%`, "--range-end": `${((priceRange[1] - 15) / 70) * 100}%` }}>
+              <span />
+              <span />
+              <span />
+            </div>
+            <div className={styles.rangeControls}>
+              <label>
+                Min
+                <select
+                  value={priceRange[0]}
+                  onChange={(event) => {
+                    const nextMin = Number(event.target.value);
+                    setPriceRange([nextMin, Math.max(nextMin, priceRange[1])]);
+                  }}
+                >
+                  <option value="15">15M</option>
+                  <option value="20">20M</option>
+                  <option value="30">30M</option>
+                  <option value="45">45M</option>
+                </select>
+              </label>
+              <label>
+                Max
+                <select
+                  value={priceRange[1]}
+                  onChange={(event) => {
+                    const nextMax = Number(event.target.value);
+                    setPriceRange([Math.min(priceRange[0], nextMax), nextMax]);
+                  }}
+                >
+                  <option value="20">20M</option>
+                  <option value="45">45M</option>
+                  <option value="60">60M</option>
+                  <option value="85">85M</option>
+                </select>
+              </label>
+            </div>
+            <div className={styles.rangeLabels}>
+              <span>{priceRange[0]}M</span>
+              <span>{priceRange[1]}M</span>
+            </div>
+          </section>
+
+          <section className={styles.filterBlock}>
+            <h3>Amenities</h3>
+            {amenityOptions.map((amenity) => (
+              <label className={styles.checkbox} key={amenity}>
+                <input
+                  type="checkbox"
+                  checked={amenities.includes(amenity)}
+                  onChange={() => toggleAmenity(amenity)}
+                />
+                <span />
+                {amenity}
+              </label>
+            ))}
+          </section>
+
+          <button
+            className={styles.apply}
+            onClick={() => {
+              setTransaction("Buy");
+              setLocationQuery("");
+              setPropertyType("Penthouse");
+              setAmenities(["Private Pool"]);
+              setPriceRange([15, 45]);
+              setSortOrder("high");
+            }}
+            type="button"
+          >
+            Reset Filters
+          </button>
+        </aside>
+
+        <section className={styles.results}>
+          <div className={styles.mapPanel}>
+            <div className={styles.mapGrid} />
+            <button className={styles.nearby}>
+              <span><SearchIcon /></span>
+              Show Nearby Properties
+            </button>
+            <span className={`${styles.mapMarker} ${styles.cluster}`}>12</span>
+            <span className={`${styles.priceMarker} ${styles.priceOne}`}>AED 24M <i /></span>
+            <span className={`${styles.priceMarker} ${styles.priceTwo}`}>AED 85M <i /></span>
+            <div className={styles.mapTools} aria-label="Map tools">
+              <button aria-label="Zoom in">+</button>
+              <button aria-label="Zoom out">-</button>
+              <button aria-label="Layers">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m12 3 9 6-9 6-9-6 9-6Z" />
+                  <path d="m3 15 9 6 9-6" />
+                  <path d="m3 11 9 6 9-6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div className={styles.listingHeader}>
+            <div>
+              <h1>Luxury Properties in Dubai</h1>
+              <p>Showing {filteredProperties.length} exclusive listing{filteredProperties.length === 1 ? "" : "s"}</p>
+            </div>
+            <div className={styles.viewControls}>
+              <div className={styles.toggle} aria-label="View layout">
+                <button className={styles.toggleActive} aria-label="Grid view"><GridIcon /></button>
+                <button aria-label="List view"><ListIcon /></button>
+              </div>
+              <button
+                className={styles.sort}
+                onClick={() => setSortOrder((current) => (current === "high" ? "low" : "high"))}
+                type="button"
+              >
+                Sort: {sortOrder === "high" ? "Price High to Low" : "Price Low to High"}
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div className={styles.cards}>
+            {filteredProperties.map((property, index) => (
+              <PropertyCard key={property.title} property={property} muted={index === 2} />
+            ))}
+            {!filteredProperties.length ? (
+              <div className={styles.emptyState}>
+                <h2>No matching properties</h2>
+                <p>Adjust the location, amenities, price, or property type to broaden the selection.</p>
+              </div>
+            ) : null}
+          </div>
+        </section>
+      </div>
+    </main>
   );
 }
