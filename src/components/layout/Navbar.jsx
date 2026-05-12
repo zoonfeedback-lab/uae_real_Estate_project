@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "./Navbar.module.css";
@@ -28,7 +29,7 @@ export default function Navbar() {
           {[{ label: "Home", href: "/" }, ...NAV_LINKS].map((link) => (
             <li key={link.label}>
               <Link
-                href={link.href}
+                href={link.href.startsWith("#") ? `/${link.href}` : link.href}
                 className={styles.link}
                 onClick={() => setMobileOpen(false)}
               >

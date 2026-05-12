@@ -65,7 +65,7 @@ export default function PropertyCard({ property, variant = "default" }) {
         </div>
         <div className={styles.footer}>
           <span className={styles.price}>{property.price}</span>
-          <Button variant="ghost" size="sm">
+          <Button variant="ghost" size="sm" href="/property">
             Details →
           </Button>
         </div>

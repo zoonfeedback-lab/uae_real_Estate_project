@@ -1,0 +1,672 @@
+.page {
+  padding-top: 100px; /* Account for fixed navbar */
+  padding-bottom: var(--section-padding);
+}
+
+.scrollProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: var(--color-gold);
+  z-index: 1000;
+  transition: width 0.1s ease-out;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  height: 600px;
+  margin-bottom: 40px;
+}
+
+.mainImage {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.galleryActions {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}
+
+.galleryBtn {
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-white);
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+}
+
+.galleryBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.sideGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 20px;
+}
+
+.gridImg {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.skyline {
+  grid-column: 1 / -1;
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* Content Layout */
+.contentLayout {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 60px;
+  align-items: start;
+}
+
+/* Left Column */
+.tags {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.tag {
+  background: var(--color-gray-900);
+  border: 1px solid var(--color-gray-800);
+  color: var(--color-gray-300);
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.tagGold {
+  background: rgba(200, 165, 78, 0.1);
+  border-color: rgba(200, 165, 78, 0.2);
+  color: var(--color-gold);
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-white);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-gray-400);
+  font-size: 1rem;
+  margin-bottom: 40px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  padding-bottom: 40px;
+  border-bottom: var(--border-subtle);
+  margin-bottom: 40px;
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-gray-500);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.statValue {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+.statValueGold {
+  color: var(--color-gold);
+}
+
+.sectionTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-white);
+  margin-bottom: 20px;
+}
+
+.overviewText {
+  color: var(--color-gray-400);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+.amenitiesGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.amenityCard {
+  background: var(--color-black-card);
+  border: var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  transition: all var(--transition-fast);
+}
+
+.amenityCard:hover {
+  border-color: rgba(200, 165, 78, 0.3);
+  transform: translateY(-2px);
+}
+
+.amenityIcon {
+  color: var(--color-gold);
+}
+
+.amenityLabel {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-gray-300);
+}
+
+/* Location Map */
+.mapHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.mapLink {
+  color: var(--color-gold);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: text-decoration-color var(--transition-fast);
+}
+
+.mapLink:hover {
+  text-decoration-color: var(--color-gold);
+}
+
+.mapContainer {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 40px;
+  background: var(--color-black-card);
+  border: var(--border-subtle);
+}
+
+.mapOverlay {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10;
+}
+
+.mapPin {
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-white);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.pinIcon {
+  color: var(--color-gold);
+}
+
+/* Investment Analysis */
+.investmentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.investmentRoi {
+  color: var(--color-gold);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.investmentCard {
+  background: var(--color-black-card);
+  border: var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.investMetrics {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.investItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.investItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.investLabel {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-gray-500);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.investValue {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+.investChart {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.chartCircle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: conic-gradient(var(--color-gold) 0% 85%, var(--color-gray-800) 85% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-right: 10px;
+}
+
+.chartCircle::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  background: var(--color-black-card);
+  border-radius: 50%;
+}
+
+.chartCircle span {
+  position: relative;
+  z-index: 1;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.chartLegend {
+  color: var(--color-gray-400);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Agent Card */
+.agentCard {
+  background: var(--color-black-card);
+  border: var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.agentAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  border: 2px solid var(--color-gold);
+}
+
+.agentInfo {
+  flex-grow: 1;
+}
+
+.agentName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-white);
+  margin-bottom: 4px;
+}
+
+.agentRole {
+  font-size: 0.8rem;
+  color: var(--color-gold);
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.agentDesc {
+  font-size: 0.9rem;
+  color: var(--color-gray-400);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.agentActions {
+  display: flex;
+  gap: 16px;
+}
+
+.agentBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--color-gray-300);
+  transition: color var(--transition-fast);
+}
+
+.agentBtn:hover {
+  color: var(--color-white);
+}
+
+/* Right Sidebar (Enquiry Form) */
+.sidebar {
+  position: sticky;
+  top: 100px;
+}
+
+.enquiryCard {
+  background: var(--color-black-card);
+  border: var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+}
+
+.formHeader {
+  margin-bottom: 24px;
+}
+
+.formSubtitle {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-gray-500);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.formPrice {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-gold);
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formLabel {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-gray-400);
+  margin-bottom: 8px;
+}
+
+.formInput {
+  width: 100%;
+  background: var(--color-gray-900);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: border-color var(--transition-fast);
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: var(--color-gold);
+}
+
+.formTextarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.formSubmit {
+  width: 100%;
+  background: var(--color-gold);
+  color: var(--color-black);
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+  transition: all var(--transition-fast);
+  border: none;
+  cursor: pointer;
+}
+
+.formSubmit:hover {
+  background: var(--color-white);
+}
+
+.btnGroup {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.actionBtn {
+  width: 100%;
+  background: var(--color-gray-900);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-white);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.actionBtn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.splitBtns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.reference {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.8rem;
+  color: var(--color-gray-500);
+}
+
+.refValue {
+  color: var(--color-gray-300);
+  font-family: monospace;
+}
+
+/* Similar Properties */
+.similarSection {
+  margin-top: 80px;
+  padding-top: 80px;
+  border-top: var(--border-subtle);
+}
+
+.similarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+}
+
+.similarSubtitle {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-gold);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.similarTitle {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+.carouselNav {
+  display: flex;
+  gap: 12px;
+}
+
+.navBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  transition: all var(--transition-fast);
+  background: transparent;
+  cursor: pointer;
+}
+
+.navBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.similarGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .contentLayout {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: static;
+  }
+  .gallery {
+    height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .mainImage {
+    height: 300px;
+  }
+  .sideGrid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 150px 150px;
+  }
+  .statsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .amenitiesGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .investmentCard {
+    grid-template-columns: 1fr;
+  }
+  .similarGrid {
+    grid-template-columns: 1fr;
+  }
+}
