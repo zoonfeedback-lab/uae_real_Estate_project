@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import styles from "./Navbar.module.css";
 import Button from "../ui/Button";
 import { NAV_LINKS } from "@/data/siteData";
@@ -18,21 +19,21 @@ export default function Navbar() {
   return (
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
       <nav className={`${styles.nav} container`}>
-        <a href="/" className={styles.logo}>
+        <Link href="/" className={styles.logo}>
           <span className={styles.logoIcon}>◆</span>
           LUXESTATE
-        </a>
+        </Link>
 
         <ul className={`${styles.links} ${mobileOpen ? styles.linksOpen : ""}`}>
-          {NAV_LINKS.map((link) => (
+          {[{ label: "Home", href: "/" }, ...NAV_LINKS].map((link) => (
             <li key={link.label}>
-              <a
+              <Link
                 href={link.href}
                 className={styles.link}
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
