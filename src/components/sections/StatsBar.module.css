@@ -1,0 +1,19 @@
+.section {
+  padding: 60px 0;
+  background: var(--color-black-light);
+  border-top: 1px solid rgba(200, 165, 78, 0.1);
+  border-bottom: 1px solid rgba(200, 165, 78, 0.1);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .inner {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+}
