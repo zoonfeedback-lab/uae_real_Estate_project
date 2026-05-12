@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import styles from "./Navbar.module.css";
 import Button from "../ui/Button";
 import { NAV_LINKS } from "@/data/siteData";
@@ -25,7 +26,7 @@ export default function Navbar() {
         </Link>
 
         <ul className={`${styles.links} ${mobileOpen ? styles.linksOpen : ""}`}>
-          {NAV_LINKS.map((link) => (
+          {[{ label: "Home", href: "/" }, ...NAV_LINKS].map((link) => (
             <li key={link.label}>
               <Link
                 href={link.href.startsWith("#") ? `/${link.href}` : link.href}
