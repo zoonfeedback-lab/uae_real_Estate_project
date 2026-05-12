@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import styles from "./Button.module.css";
 
 /**
@@ -27,10 +28,10 @@ export default function Button({
 
   if (href) {
     return (
-      <a href={href} className={classes} {...props}>
+      <Link href={href} className={classes} {...props}>
         {children}
         {icon && <span className={styles.icon}>{icon}</span>}
-      </a>
+      </Link>
     );
   }
 

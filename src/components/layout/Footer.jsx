@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "./Footer.module.css";
 import { FOOTER_LINKS } from "@/data/siteData";
 
@@ -10,10 +11,10 @@ export default function Footer() {
         {/* Top */}
         <div className={styles.top}>
           <div className={styles.brand}>
-            <a href="/" className={styles.logo}>
+            <Link href="/" className={styles.logo}>
               <span className={styles.logoIcon}>◆</span>
               LUXESTATE
-            </a>
+            </Link>
             <p className={styles.tagline}>
               Defining luxury real estate across the United Arab Emirates with
               an uncompromising commitment to architectural excellence and
@@ -28,9 +29,9 @@ export default function Footer() {
                 <ul className={styles.columnList}>
                   {links.map((link) => (
                     <li key={link}>
-                      <a href="#" className={styles.columnLink}>
+                      <Link href="/" className={styles.columnLink}>
                         {link}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
