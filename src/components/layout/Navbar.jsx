@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import styles from "./Navbar.module.css";
 import Button from "../ui/Button";
 import { NAV_LINKS } from "@/data/siteData";

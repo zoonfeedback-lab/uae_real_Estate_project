@@ -1,0 +1,505 @@
+.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 248px minmax(0, 1fr);
+  background: #111;
+  color: #efece6;
+}
+
+.page svg {
+  width: 1em;
+  height: 1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 23px 23px;
+  background: #1f1e1d;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.logo {
+  color: #ffd452;
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
+.memberCard {
+  height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 43px 0 38px;
+  padding: 0 12px;
+  border-radius: 10px;
+  background: #242322;
+}
+
+.avatar {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  overflow: hidden;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.avatar img,
+.imageWrap img {
+  object-fit: cover;
+}
+
+.memberCard strong {
+  display: block;
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+}
+
+.memberCard span {
+  display: block;
+  margin-top: 3px;
+  color: #efe1c7;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.sideNav {
+  display: grid;
+  gap: 13px;
+}
+
+.sideNav a,
+.sideFooter a {
+  height: 47px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 18px;
+  border-radius: 8px;
+  color: #e8ddcb;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+}
+
+.sideNav svg,
+.sideFooter svg {
+  width: 21px;
+  height: 21px;
+}
+
+.activeNav {
+  background: #27303a;
+  color: #ffd452 !important;
+}
+
+.sideFooter {
+  display: grid;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sideFooter button {
+  height: 37px;
+  margin-top: 7px;
+  border-radius: 7px;
+  background: #f5c948;
+  color: #111;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.17em;
+}
+
+.content {
+  min-width: 0;
+  background: #131313;
+}
+
+.topbar {
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 31px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.topbar nav {
+  display: flex;
+  gap: 32px;
+}
+
+.topbar nav a {
+  color: #e6dac8;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+}
+
+.listButton {
+  width: 136px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #f5c948;
+  color: #111;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.inner {
+  width: min(1080px, calc(100% - 62px));
+  margin: 0 auto;
+  padding: 48px 0 70px;
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 28px;
+  margin-bottom: 30px;
+}
+
+.pageHeader p {
+  color: #ffd452;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.pageHeader h1 {
+  margin-top: 8px;
+  color: #f7f7f6;
+  font-size: 48px;
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.pageHeader span {
+  display: block;
+  margin-top: 10px;
+  color: #e5dac7;
+  font-size: 16px;
+}
+
+.headerActions,
+.cardActions {
+  display: flex;
+  gap: 12px;
+}
+
+.headerActions button,
+.filterBar button {
+  height: 42px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 7px;
+  color: #f6ecdc;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+}
+
+.headerActions button:last-child {
+  border-color: transparent;
+  background: #f5c948;
+  color: #111;
+}
+
+.filterBar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.filterBar label {
+  flex: 1;
+  min-width: 240px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: #1b1a19;
+  color: #efe5d4;
+}
+
+.filterBar input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+}
+
+.filterBar input::placeholder {
+  color: #8f8d91;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.card {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #1c1c1b, #151515);
+}
+
+.imageWrap {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+  background: #222;
+}
+
+.imageWrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.04), transparent 42%, rgba(0, 0, 0, 0.84));
+}
+
+.checkMark {
+  position: absolute;
+  z-index: 2;
+  top: 16px;
+  left: 16px;
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 212, 82, 0.8);
+  border-radius: 5px;
+  background: rgba(245, 201, 72, 0.95);
+  color: #111;
+}
+
+.checkMark:empty {
+  background: rgba(0, 0, 0, 0.42);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.imageWrap > strong {
+  position: absolute;
+  z-index: 2;
+  top: 16px;
+  right: 16px;
+  padding: 7px 12px;
+  border-radius: 7px;
+  background: rgba(0, 0, 0, 0.62);
+  color: #ffd452;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.imageWrap div {
+  position: absolute;
+  z-index: 2;
+  left: 20px;
+  right: 20px;
+  bottom: 18px;
+}
+
+.imageWrap small {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.imageWrap h2 {
+  margin-top: 5px;
+  color: #fff;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.cardBody {
+  padding: 24px;
+}
+
+.priceRow,
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.priceRow {
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.priceRow small,
+.metaRow small,
+.note small {
+  display: block;
+  color: #ffd452;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.priceRow strong {
+  display: block;
+  margin-top: 3px;
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.beds {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #e4d8c5;
+  font-weight: 800;
+}
+
+.metaRow {
+  margin-bottom: 20px;
+}
+
+.metaRow strong {
+  display: block;
+  margin-top: 5px;
+  color: #eee9df;
+  font-size: 14px;
+}
+
+.note {
+  min-height: 104px;
+  margin-bottom: 22px;
+  padding: 15px;
+  border: 1px dashed rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.note p {
+  margin-top: 8px;
+  color: #aaa39a;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.addNote {
+  width: 100%;
+  height: 104px;
+  margin-bottom: 22px;
+  border: 1px dashed rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  color: #8f8b84;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.cardActions button {
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.cardActions button:first-child {
+  flex: 1;
+  background: #f5c948;
+  color: #111;
+}
+
+.cardActions button:not(:first-child) {
+  width: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #efe5d4;
+}
+
+@media (max-width: 1050px) {
+  .page {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pageHeader,
+  .filterBar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 760px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: relative;
+    height: auto;
+  }
+
+  .sideNav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .topbar {
+    height: auto;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .inner {
+    width: calc(100% - 36px);
+    padding-top: 34px;
+  }
+
+  .pageHeader h1 {
+    font-size: 36px;
+  }
+
+  .headerActions {
+    flex-direction: column;
+  }
+}
